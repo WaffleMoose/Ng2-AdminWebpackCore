@@ -45,7 +45,7 @@ namespace Angular2
                     app.UseDeveloperExceptionPage();
                     app.UseWebpackDevMiddleware(new WebpackDevMiddlewareOptions
                     {
-                        HotModuleReplacement = false
+                        HotModuleReplacement = true
                     });
                 }
                 else

@@ -2,9 +2,12 @@
     ViewData["Title"] = "Home Page";
 }
 
-<script src="~/dist/vendor.js" asp-append-version="true"></script>
 @section scripts {
-    <script src="~/dist/main-client.js" asp-append-version="true"></script>
+    <script type="text/javascript" src="polyfills.dll.js" defer asp-append-version="true"></script>
+    <script type="text/javascript" src="vendor.dll.js" defer asp-append-version="true"></script>
+    <script type="text/javascript" src="polyfills.bundle.js" defer asp-append-version="true"></script>
+    <script type="text/javascript" src="vendor.bundle.js" defer asp-append-version="true"></script>
+    <script type="text/javascript" src="main.bundle.js" defer asp-append-version="true"></script>
 }
 
 <app></app>

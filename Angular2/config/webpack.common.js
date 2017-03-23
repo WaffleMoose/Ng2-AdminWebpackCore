@@ -1,33 +1,32 @@
-const webpack = require('webpack');
-const helpers = require('./helpers');
+const webpack = require("webpack");
+const helpers = require("./helpers");
 
 /*
  * Webpack Plugins
  */
 // problem with copy-webpack-plugin
-const AssetsPlugin = require('assets-webpack-plugin');
-const NormalModuleReplacementPlugin = require('webpack/lib/NormalModuleReplacementPlugin');
-const ContextReplacementPlugin = require('webpack/lib/ContextReplacementPlugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const CheckerPlugin = require('awesome-typescript-loader').CheckerPlugin;
-const HtmlElementsPlugin = require('./html-elements-plugin');
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const LoaderOptionsPlugin = require('webpack/lib/LoaderOptionsPlugin');
-const CommonsChunkPlugin = require('webpack/lib/optimize/CommonsChunkPlugin');
-const ScriptExtHtmlWebpackPlugin = require('script-ext-html-webpack-plugin');
-const ngcWebpack = require('ngc-webpack');
-
+const AssetsPlugin = require("assets-webpack-plugin");
+const NormalModuleReplacementPlugin = require("webpack/lib/NormalModuleReplacementPlugin");
+const ContextReplacementPlugin = require("webpack/lib/ContextReplacementPlugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const CheckerPlugin = require("awesome-typescript-loader").CheckerPlugin;
+const HtmlElementsPlugin = require("./html-elements-plugin");
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const LoaderOptionsPlugin = require("webpack/lib/LoaderOptionsPlugin");
+const CommonsChunkPlugin = require("webpack/lib/optimize/CommonsChunkPlugin");
+const ScriptExtHtmlWebpackPlugin = require("script-ext-html-webpack-plugin");
+const ngcWebpack = require("ngc-webpack");
 
 /*
  * Webpack Constants
  */
-const HMR = helpers.hasProcessFlag('hot');
-const AOT = helpers.hasNpmFlag('aot');
+const HMR = helpers.hasProcessFlag("hot");
+const AOT = helpers.hasNpmFlag("aot");
 const METADATA = {
-    title: 'ng2-admin - Angular 2 Admin Template',
-    description: 'Free Angular 2 and Bootstrap 4 Admin Template',
-    baseUrl: '/',
+    title: "ng2-admin - Angular 2 Admin Template",
+    description: "Free Angular 2 and Bootstrap 4 Admin Template",
+    baseUrl: "/",
     isDevServer: helpers.isWebpackDevServer()
 };
 
@@ -37,7 +36,7 @@ const METADATA = {
  * See: http://webpack.github.io/docs/configuration.html#cli
  */
 module.exports = function (options) {
-    isProd = options.env === 'production';
+    isProd = options.env === "production";
     return {
 
         /*
@@ -57,9 +56,9 @@ module.exports = function (options) {
          */
         entry: {
 
-            'polyfills': './src/polyfills.browser.ts',
-            'vendor': './src/vendor.browser.ts',
-            'main': AOT ? './src/main.browser.aot.ts' : './src/main.browser.ts'
+            'polyfills': "./src/polyfills.browser.ts",
+            'vendor': "./src/vendor.browser.ts",
+            'main': AOT ? "./src/main.browser.aot.ts" : "./src/main.browser.ts"
         },
 
         /*
@@ -74,10 +73,10 @@ module.exports = function (options) {
              *
              * See: http://webpack.github.io/docs/configuration.html#resolve-extensions
              */
-            extensions: ['.ts', '.js', '.css', '.scss', '.json'],
+            extensions: [".ts", ".js", ".css", ".scss", ".json"],
 
             // An array of directory names to be resolved to the current directory
-            modules: [helpers.root('src'), helpers.root('node_modules')],
+            modules: [helpers.root("src"), helpers.root("node_modules")],
 
         },
 
@@ -90,115 +89,115 @@ module.exports = function (options) {
 
             rules: [
 
-              /*
-               * Typescript loader support for .ts
-               *
-               * Component Template/Style integration using `angular2-template-loader`
-               * Angular 2 lazy loading (async routes) via `ng-router-loader`
-               *
-               * `ng-router-loader` expects vanilla JavaScript code, not TypeScript code. This is why the
-               * order of the loader matter.
-               *
-               * See: https://github.com/s-panferov/awesome-typescript-loader
-               * See: https://github.com/TheLarkInn/angular2-template-loader
-               * See: https://github.com/shlomiassaf/ng-router-loader
-               */
-              {
-                  test: /\.ts$/,
-                  use: [
+                /*
+                * Typescript loader support for .ts
+                *
+                * Component Template/Style integration using `angular2-template-loader`
+                * Angular 2 lazy loading (async routes) via `ng-router-loader`
+                *
+                * `ng-router-loader` expects vanilla JavaScript code, not TypeScript code. This is why the
+                * order of the loader matter.
+                *
+                * See: https://github.com/s-panferov/awesome-typescript-loader
+                * See: https://github.com/TheLarkInn/angular2-template-loader
+                * See: https://github.com/shlomiassaf/ng-router-loader
+                */
+                {
+                    test: /\.ts$/,
+                    use: [
                     {
-                        loader: '@angularclass/hmr-loader',
+                        loader: "@angularclass/hmr-loader",
                         options: {
                             pretty: !isProd,
                             prod: isProd
                         }
                     },
                     { // MAKE SURE TO CHAIN VANILLA JS CODE, I.E. TS COMPILATION OUTPUT.
-                        loader: 'ng-router-loader',
+                        loader: "ng-router-loader",
                         options: {
-                            loader: 'async-import',
-                            genDir: 'compiled',
+                            loader: "async-import",
+                            genDir: "compiled",
                             aot: AOT
                         }
                     },
                     {
-                        loader: 'awesome-typescript-loader',
+                        loader: "awesome-typescript-loader",
                         options: {
-                            configFileName: 'tsconfig.webpack.json'
+                            configFileName: "tsconfig.webpack.json"
                         }
                     },
                     {
-                        loader: 'angular2-template-loader'
+                        loader: "angular2-template-loader"
                     }
-                  ],
-                  exclude: [/\.(spec|e2e)\.ts$/]
-              },
+                    ],
+                    exclude: [/\.(spec|e2e)\.ts$/]
+                },
 
-              /*
-               * Json loader support for *.json files.
-               *
-               * See: https://github.com/webpack/json-loader
-               */
-              {
-                  test: /\.json$/,
-                  use: 'json-loader'
-              },
+                /*
+                * Json loader support for *.json files.
+                *
+                * See: https://github.com/webpack/json-loader
+                */
+                {
+                    test: /\.json$/,
+                    use: "json-loader"
+                },
 
-              /*
-               * to string and css loader support for *.css files (from Angular components)
-               * Returns file content as string
-               *
-               */
-              {
-                  test: /\.css$/,
-                  use: ['raw-loader']
-              },
+                /*
+                * to string and css loader support for *.css files (from Angular components)
+                * Returns file content as string
+                *
+                */
+                {
+                    test: /\.css$/,
+                    use: ["raw-loader"]
+                },
 
-              {
-                  test: /\.scss$/,
-                  use: ['raw-loader', 'sass-loader']
-              },
+                {
+                    test: /\.scss$/,
+                    use: ["raw-loader", "sass-loader"]
+                },
 
-              {
-                  test: /initial\.scss$/,
-                  use: ExtractTextPlugin.extract({
-                      fallback: 'style-loader',
-                      use: 'css-loader!sass-loader?sourceMap'
-                  })
-              },
+                {
+                    test: /initial\.scss$/,
+                    use: ExtractTextPlugin.extract({
+                        fallback: "style-loader",
+                        use: "css-loader!sass-loader?sourceMap"
+                    })
+                },
 
-              {
-                  test: /\.woff(2)?(\?v=.+)?$/,
-                  use: 'url-loader?limit=10000&mimetype=application/font-woff'
-              },
+                {
+                    test: /\.woff(2)?(\?v=.+)?$/,
+                    use: "url-loader?limit=10000&mimetype=application/font-woff"
+                },
 
-              {
-                  test: /\.(ttf|eot|svg)(\?v=.+)?$/,
-                  use: 'file-loader'
-              },
+                {
+                    test: /\.(ttf|eot|svg)(\?v=.+)?$/,
+                    use: "file-loader"
+                },
 
-              {
-                  test: /bootstrap\/dist\/js\/umd\//,
-                  use: 'imports-loader?jQuery=jquery'
-              },
+                {
+                    test: /bootstrap\/dist\/js\/umd\//,
+                    use: "imports-loader?jQuery=jquery"
+                },
 
-              /* Raw loader support for *.html
-               * Returns file content as string
-               *
-               * See: https://github.com/webpack/raw-loader
-               */
-              {
-                  test: /\.html$/,
-                  use: 'raw-loader',
-                  exclude: [helpers.root('src/index.html')]
-              },
+                /* Raw loader support for *.html
+                * Returns file content as string
+                *
+                * See: https://github.com/webpack/raw-loader
+                */
+                {
+                    test: /\.html$/,
+                    use: "raw-loader",
+                    exclude: [helpers.root("src/index.html")]
+                },
 
-              /* File loader for supporting images, for example, in CSS files.
-               */
-              {
-                  test: /\.(jpg|png|gif)$/,
-                  use: 'file-loader'
-              }
+                /* File loader for supporting images, for example, in CSS files.
+                */
+                {
+                    test: /\.(jpg|png|gif)$/,
+                    use: "file-loader"
+                }
             ]
         },
 
@@ -208,11 +207,11 @@ module.exports = function (options) {
          * See: http://webpack.github.io/docs/configuration.html#plugins
          */
         plugins: [
-          new ExtractTextPlugin({ filename: 'initial.css', allChunks: true }),
+          new ExtractTextPlugin({ filename: "initial.css", allChunks: true }),
 
           new AssetsPlugin({
-              path: helpers.root('dist'),
-              filename: 'webpack-assets.json',
+              path: helpers.root("dist"),
+              filename: "webpack-assets.json",
               prettyPrint: true
           }),
 
@@ -232,18 +231,18 @@ module.exports = function (options) {
            * See: https://github.com/webpack/docs/wiki/optimization#multi-page-app
            */
           new CommonsChunkPlugin({
-              name: 'polyfills',
-              chunks: ['polyfills']
+              name: "polyfills",
+              chunks: ["polyfills"]
           }),
           // This enables tree shaking of the vendor modules
           new CommonsChunkPlugin({
-              name: 'vendor',
-              chunks: ['main'],
+              name: "vendor",
+              chunks: ["main"],
               minChunks: module => /node_modules/.test(module.resource)
           }),
           // Specify the correct order the scripts will be injected in
           new CommonsChunkPlugin({
-              name: ['polyfills', 'vendor'].reverse()
+              name: ["polyfills", "vendor"].reverse()
           }),
 
 
@@ -257,7 +256,7 @@ module.exports = function (options) {
           new ContextReplacementPlugin(
             // The (\\|\/) piece accounts for path separators in *nix and Windows
             /angular(\\|\/)core(\\|\/)src(\\|\/)linker/,
-            helpers.root('src') // location of your src
+            helpers.root("src") // location of your src
           ),
 
           /*
@@ -269,8 +268,8 @@ module.exports = function (options) {
            * See: https://www.npmjs.com/package/copy-webpack-plugin
            */
           new CopyWebpackPlugin([
-            { from: 'src/assets', to: 'assets' },
-            { from: 'src/meta' }
+            { from: "src/assets", to: "assets" },
+            { from: "src/meta" }
           ]),
 
           /*
@@ -282,11 +281,11 @@ module.exports = function (options) {
            * See: https://github.com/ampedandwired/html-webpack-plugin
            */
           new HtmlWebpackPlugin({
-              template: 'src/index.html',
+              template: "src/index.html",
               title: METADATA.title,
-              chunksSortMode: 'dependency',
+              chunksSortMode: "dependency",
               metadata: METADATA,
-              inject: 'head'
+              inject: "head"
           }),
 
           /*
@@ -297,7 +296,7 @@ module.exports = function (options) {
            * See: https://github.com/numical/script-ext-html-webpack-plugin
            */
           new ScriptExtHtmlWebpackPlugin({
-              defaultAttribute: 'defer'
+              defaultAttribute: "defer"
           }),
 
           /*
@@ -323,7 +322,7 @@ module.exports = function (options) {
            * Dependencies: HtmlWebpackPlugin
            */
           new HtmlElementsPlugin({
-              headTags: require('./head-config.common')
+              headTags: require("./head-config.common")
           }),
 
           /**
@@ -355,29 +354,29 @@ module.exports = function (options) {
           // Fix Angular 2
           new NormalModuleReplacementPlugin(
             /facade(\\|\/)async/,
-            helpers.root('node_modules/@angular/core/src/facade/async.js')
+            helpers.root("node_modules/@angular/core/src/facade/async.js")
           ),
           new NormalModuleReplacementPlugin(
             /facade(\\|\/)collection/,
-            helpers.root('node_modules/@angular/core/src/facade/collection.js')
+            helpers.root("node_modules/@angular/core/src/facade/collection.js")
           ),
           new NormalModuleReplacementPlugin(
             /facade(\\|\/)errors/,
-            helpers.root('node_modules/@angular/core/src/facade/errors.js')
+            helpers.root("node_modules/@angular/core/src/facade/errors.js")
           ),
           new NormalModuleReplacementPlugin(
             /facade(\\|\/)lang/,
-            helpers.root('node_modules/@angular/core/src/facade/lang.js')
+            helpers.root("node_modules/@angular/core/src/facade/lang.js")
           ),
           new NormalModuleReplacementPlugin(
             /facade(\\|\/)math/,
-            helpers.root('node_modules/@angular/core/src/facade/math.js')
+            helpers.root("node_modules/@angular/core/src/facade/math.js")
           ),
 
           new ngcWebpack.NgcWebpackPlugin({
               disabled: !AOT,
-              tsConfig: helpers.root('tsconfig.webpack.json'),
-              resourceOverride: helpers.root('config/resource-override.js')
+              tsConfig: helpers.root("tsconfig.webpack.json"),
+              resourceOverride: helpers.root("config/resource-override.js")
           })
         ],
 
@@ -389,7 +388,7 @@ module.exports = function (options) {
          */
         node: {
             global: true,
-            crypto: 'empty',
+            crypto: "empty",
             process: true,
             module: false,
             clearImmediate: false,

@@ -1,0 +1,12 @@
+{
+  "vendor": {
+    "js": "/D:\\8. Dev\\Common\\Angular2\\wwwrootvendor.bundle.js"
+  },
+  "main": {
+    "js": "/D:\\8. Dev\\Common\\Angular2\\wwwrootmain.bundle.js",
+    "css": "/D:\\8. Dev\\Common\\Angular2\\wwwrootinitial.css"
+  },
+  "polyfills": {
+    "js": "/D:\\8. Dev\\Common\\Angular2\\wwwrootpolyfills.bundle.js"
+  }
+}
